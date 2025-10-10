@@ -1,6 +1,8 @@
 package edu.uca.app;
 
+import java.util.Map;
 import java.util.Scanner;
+import edu.uca.model.*;
 
 public class Menu extends Output {
 
@@ -16,6 +18,14 @@ public class Menu extends Output {
         print("Choose: ");
     }
 
+    private void listStudents(Map<String, Student> students) {
+        println(students.toString());
+    }
+
+    private void listCourses(Map<String, Course> courses) {
+        println(courses.toString());
+    }
+
     private void menuLoop(Map<String, Student> students, Map<String, Course> courses) {
         Scanner sc = new Scanner(System.in);
         UI ui = new UI();
@@ -27,18 +37,18 @@ public class Menu extends Output {
                 case "2": ui.addCourseUI(sc, courses); break;
                 case "3": ui.enrollUI(sc, courses); break;
                 case "4": ui.dropUI(sc, courses); break;
-                case "5": listStudents(); break;
-                case "6": listCourses(); break;
+                case "5": listStudents(students); break;
+                case "6": listCourses(courses); break;
                 case "0": return;
                 default: println("Invalid"); break;
             }
         }
     }
 
-    public void createMenu() {
+    public void createMenu(Map<String, Student> students, Map<String, Course> courses) {
         Start();
         OutputMenu();
-        menuLoop();
+        menuLoop(students, courses);
         Exit();
     }
 }

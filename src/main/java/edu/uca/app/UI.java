@@ -6,38 +6,37 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class UI extends Output {
-    static Scanner scanner = new Scanner(System.in);
     static Audit audit = new Audit();
     
-    public void addStudentUI(Map<String, Student> students) {
+    public void addStudentUI(Scanner sc, Map<String, Student> students) {
         print("Banner ID: ");
-        String id = scanner.nextLine().trim();
+        String id = sc.nextLine().trim();
         print("Name: ");
-        String name = scanner.nextLine().trim();
+        String name = sc.nextLine().trim();
         print("Email: ");
-        String email = scanner.nextLine().trim();
-        Student s = new Student(id, name, email);
-        students.put(id, s);
+        String email = sc.nextLine().trim();
+        Student student = new Student(id, name, email);
+        students.put(id, student);
         audit.add("ADD_STUDENT " + id);
     }
 
-    public void addCourseUI(Map<String, Course> courses) {
+    public void addCourseUI(Scanner sc, Map<String, Course> courses) {
         print("Course Code: ");
-        String code = scanner.nextLine().trim();
+        String code = sc.nextLine().trim();
         print("Title: ");
-        String title = scanner.nextLine().trim();
+        String title = sc.nextLine().trim();
         print("Capacity: ");
-        int cap = Integer.parseInt(scanner.nextLine().trim());
+        int cap = Integer.parseInt(sc.nextLine().trim());
         Course c = new Course(code, title, cap);
         courses.put(code, c);
         audit.add("ADD_COURSE " + code);
     }
 
-    public void enrollUI(Map<String, Course> courses) {
+    public void enrollUI(Scanner sc, Map<String, Course> courses) {
         print("Student ID: ");
-        String student_id = scanner.nextLine().trim();
+        String student_id = sc.nextLine().trim();
         print("Course Code: ");
-        String course_code = scanner.nextLine().trim();
+        String course_code = sc.nextLine().trim();
         Course course = courses.get(course_code);
         if (course == null) {
             println("No such course"); return;
