@@ -3,41 +3,38 @@ package edu.uca.service;
 import edu.uca.model.*; // add course and student classes
 import edu.uca.repo.*; // course, enrollment, and student repository
 import edu.uca.util.*; // exceptions
+import edu.uca.app.Parser;
 
 import java.io.*;
 import java.util.Map;
+
 /*
-    Service to register students. Implements all repository interfaces.
+    Service to register students. Implements all repository interfaces.+
  */
 public class RegistrationService implements StudentRepository, CourseRepository, EnrollmentRepository {
-    // TODO: I don't think these CSVs should be here
-    static final String STUDENTS_CSV = "students.csv";
-    static final String COURSES_CSV = "courses.csv";
-    static final String ENROLLMENTS_CSV = "enrollments.csv";
-    private static Audit audit = new Audit();
+    private static final Audit audit = new Audit();
+    private static final Parser parser = new Parser();
 
-    public void loadAll(Map<String, Student> students, Map<String, Course> courses) {
-        loadStudents(students);
-        loadCourses(courses);
-        loadEnrollments(courses);
+    public void loadAll(Map<String, Student> students, Map<String, Course> courses, String student_csv, String course_csv, String enrollment_csv) {
+        loadStudents(students, student_csv);
+        loadCourses(courses, course_csv);
+        loadEnrollments(courses, enrollment_csv);
     }
 
-    public void saveAll(Map<String, Student> students, Map<String, Course> courses) {
-        saveStudents(students);
-        saveCourses(courses);
-        saveEnrollments(courses);
+    public void saveAll(Map<String, Student> students, Map<String, Course> courses, String Student_out_csv, String Course_out_csv, String Enrollment_out_csv) {
+        saveStudents(students, Student_out_csv);
+        saveCourses(courses, Course_out_csv);
+        saveEnrollments(courses, Enrollment_out_csv);
     }
 
-    public void loadStudents(Map<String, Student> students) {
-        File f = new File(STUDENTS_CSV);
+    public void loadStudents(Map<String, Student> students, String in_csv) {
+        File f = new File(in_csv);
         if (!f.exists()) return;
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
             String line;
             while ((line = br.readLine()) != null) {
-                String[] p = line.split(",", -1);
-                if (p.length >= 3) {
-                    students.put(p[0], new Student(p[0], p[1], p[2]));
-                }
+                Student student = parser.parseStudent(line);
+                students.put(student.getName(), student);
             }
             audit.add("LOAD students=" + students.size());
         } catch (Exception e) {
@@ -45,8 +42,8 @@ public class RegistrationService implements StudentRepository, CourseRepository,
         }
     }
 
-    public void saveStudents(Map<String, Student> students) {
-        try (PrintWriter pw = new PrintWriter(new FileWriter(STUDENTS_CSV))) {
+    public void saveStudents(Map<String, Student> students, String out_csv) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(out_csv))) {
             for (Student s : students.values()) {
                 pw.println(s.getId() + "," + s.getName() + "," + s.getEmail());
             }
@@ -55,28 +52,24 @@ public class RegistrationService implements StudentRepository, CourseRepository,
         }
     }
 
-    public void loadCourses(Map<String, Course> courses) {
-        File f = new File(COURSES_CSV);
+    public void loadCourses(Map<String, Course> courses, String in_csv) {
+        File f = new File(in_csv);
         if (!f.exists()) return;
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
             String line;
             while ((line = br.readLine()) != null) {
-                String[] p = line.split(",", -1);
-                if (p.length >= 3) {
-                    try {
-                        int cap = Integer.parseInt(p[2]);
-                        courses.put(p[0], new Course(p[0], p[1], cap));
-                    } catch (NumberFormatException ignored) {}
+                Course course = parser.parseCourse(line);
+                courses.put(course.getCode(), course);
                 }
-            }
+
             audit.add("LOAD courses=" + courses.size());
         } catch (Exception e) {
             throw new EnrollmentException("Failed load courses");
         }
     }
 
-    public void saveCourses(Map<String, Course> courses) {
-        try (PrintWriter pw = new PrintWriter(new FileWriter(COURSES_CSV))) {
+    public void saveCourses(Map<String, Course> courses, String out_csv) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(out_csv))) {
             for (Course c : courses.values()) {
                 pw.println(c.getCode() + "," + c.getTitle() + "," + c.getCapacity());
             }
@@ -85,18 +78,19 @@ public class RegistrationService implements StudentRepository, CourseRepository,
         }
     }
 
-    public void loadEnrollments(Map<String, Course> courses) {
-        File f = new File(ENROLLMENTS_CSV);
+    public void loadEnrollments(Map<String, Course> courses, String in_csv) {
         // TODO: add error handling
+        File f = new File(in_csv);
         if (!f.exists()) return;
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
             String line;
 
             while ((line = br.readLine()) != null) {
                 // Format: courseCode|studentId|ENROLLED or WAITLIST
-                String[] p = line.split("\\|", -1);
-                if (p.length >= 3) {
-                    String code = p[0], student_id = p[1], status = p[2];
+                String[] enrollment_info = parser.parseEnrollment(line);
+                if (enrollment_info.length >= 3) {
+                    String code = enrollment_info[0];
+                    String student_id = enrollment_info[1], status = enrollment_info[2];
                     Course course = courses.get(code);
 
                     if (course == null)
@@ -116,8 +110,8 @@ public class RegistrationService implements StudentRepository, CourseRepository,
         }
     }
 
-    public void saveEnrollments(Map<String, Course> courses) {
-        try (PrintWriter pw = new PrintWriter(new FileWriter(ENROLLMENTS_CSV))) {
+    public void saveEnrollments(Map<String, Course> courses, String out_csv) {
+        try (PrintWriter pw = new PrintWriter(new FileWriter(out_csv))) {
             for (Course course : courses.values()) {
                 for (String student_id : course.getRoster())
                     pw.println(course.getCode() + "|" + student_id + "|ENROLLED");

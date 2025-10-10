@@ -8,6 +8,10 @@ import edu.uca.service.RegistrationService;
 import java.util.*;
 
 public class Main {
+    private static final String STUDENTS_CSV = "students.csv";
+    private static final String COURSES_CSV = "courses.csv";
+    private static final String ENROLLMENTS_CSV = "enrollments.csv";
+
     public static void main(String[] args) {
         Menu menu = new Menu();
         Audit audit = new Audit();
@@ -22,7 +26,7 @@ public class Main {
             seedDemoData(students, courses);
             audit.add("SEED demo data");
         } else {
-            register.loadAll(students, courses);
+            register.loadAll(students, courses, STUDENTS_CSV, COURSES_CSV, ENROLLMENTS_CSV);
         }
         menu.createMenu(students, courses);
     }
