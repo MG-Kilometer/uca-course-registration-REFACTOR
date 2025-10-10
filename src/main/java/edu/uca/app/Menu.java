@@ -27,13 +27,16 @@ public class Menu extends Output {
         // string builder added for clarity
         StringBuilder sb = new StringBuilder();
 
-        for (Course course : courses.values())
+        for (Course course : courses.values()) {
             sb.append(" - ").append(course.getCode())
                     .append(" ").append(course.getTitle())
                     .append(" cap=").append(course.getCapacity())
                     .append(" enrolled=").append(course.getRoster().size())
                     .append(" wait=").append(course.getWaitlist().size());
             println(sb.toString());
+            // clear string builder
+            sb.delete(0, sb.length());
+        }
     }
 
     private void menuLoop(Map<String, Student> students, Map<String, Course> courses) {
