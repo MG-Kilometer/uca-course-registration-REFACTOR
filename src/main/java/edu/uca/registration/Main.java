@@ -4,6 +4,8 @@ import edu.uca.app.Menu;
 import edu.uca.service.Audit;
 import edu.uca.model.*; // import student and course
 import edu.uca.service.RegistrationService;
+import edu.uca.util.InCSV;
+import edu.uca.util.OutCSV;
 
 import java.util.*;
 
@@ -11,6 +13,9 @@ public class Main {
     private static final String STUDENTS_CSV = "students.csv";
     private static final String COURSES_CSV = "courses.csv";
     private static final String ENROLLMENTS_CSV = "enrollments.csv";
+    private static final InCSV InCSV = new InCSV(STUDENTS_CSV,
+            COURSES_CSV,
+            ENROLLMENTS_CSV);
 
     public static void main(String[] args) {
         Menu menu = new Menu();
@@ -26,7 +31,7 @@ public class Main {
             seedDemoData(students, courses);
             audit.add("SEED demo data");
         } else {
-            register.loadAll(students, courses, STUDENTS_CSV, COURSES_CSV, ENROLLMENTS_CSV);
+            register.loadAll(students, courses, InCSV);
         }
         menu.createMenu(students, courses);
     }

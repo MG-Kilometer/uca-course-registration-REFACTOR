@@ -15,7 +15,6 @@ public class Menu extends Output {
         println("5) List students");
         println("6) List courses");
         println("0) Exit");
-        print("Choose: ");
     }
 
     private void listStudents(Map<String, Student> students) {
@@ -44,7 +43,7 @@ public class Menu extends Output {
         UI ui = new UI();
 
         while (true) {
-            print("Choose next option: ");
+            print("Select next option: ");
             String choice = sc.nextLine().trim();
             switch (choice) {
                 case "1": ui.addStudentUI(sc, students); break;

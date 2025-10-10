@@ -15,16 +15,16 @@ public class RegistrationService implements StudentRepository, CourseRepository,
     private static final Audit audit = new Audit();
     private static final Parser parser = new Parser();
 
-    public void loadAll(Map<String, Student> students, Map<String, Course> courses, String student_csv, String course_csv, String enrollment_csv) {
-        loadStudents(students, student_csv);
-        loadCourses(courses, course_csv);
-        loadEnrollments(courses, enrollment_csv);
+    public void loadAll(Map<String, Student> students, Map<String, Course> courses, InCSV inCSV) {
+        loadStudents(students, inCSV.student_csv());
+        loadCourses(courses, inCSV.course_csv());
+        loadEnrollments(courses, inCSV.enrollment_csv());
     }
 
-    public void saveAll(Map<String, Student> students, Map<String, Course> courses, String Student_out_csv, String Course_out_csv, String Enrollment_out_csv) {
-        saveStudents(students, Student_out_csv);
-        saveCourses(courses, Course_out_csv);
-        saveEnrollments(courses, Enrollment_out_csv);
+    public void saveAll(Map<String, Student> students, Map<String, Course> courses, OutCSV outCSV) {
+        saveStudents(students, outCSV.student_csv());
+        saveCourses(courses, outCSV.course_csv());
+        saveEnrollments(courses, outCSV.enrollment_csv());
     }
 
     public void loadStudents(Map<String, Student> students, String in_csv) {

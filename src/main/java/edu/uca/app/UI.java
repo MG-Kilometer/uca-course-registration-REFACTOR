@@ -2,6 +2,8 @@ package edu.uca.app;
 
 import edu.uca.model.*;
 import edu.uca.service.Audit;
+import edu.uca.util.EnrollmentException;
+
 import java.util.Map;
 import java.util.Scanner;
 
@@ -38,14 +40,22 @@ public class UI extends Output {
         print("Course Code: ");
         String course_code = sc.nextLine().trim();
         Course course = courses.get(course_code);
+        try {
         if (course == null) {
-            println("No such course"); return;
+            println("No such course");
+            throw new EnrollmentException("No such course");
         }
         if (course.getRoster().contains(student_id)) {
-            println("Already enrolled"); return;
+            println("Already enrolled in course ");
+            throw new EnrollmentException("Cannot enroll in already enrolled course " + course_code);
         }
         if (course.getWaitlist().contains(student_id)) {
-            println("Already waitlisted"); return;
+            println("Already waitlisted");
+            throw new EnrollmentException("Student " + student_id + " is already waitlisted");
+        }
+        } catch (EnrollmentException ee) {
+            audit.add(ee.getMessage());
+            return;
         }
 
         if (course.getRoster().size() >= course.getCapacity()) {
