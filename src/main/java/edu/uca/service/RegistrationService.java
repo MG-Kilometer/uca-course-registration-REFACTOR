@@ -1,14 +1,14 @@
 package edu.uca.service;
 
-import edu.uca.model.Course;
-import edu.uca.model.Student;
+import edu.uca.model.*; // add course and student classes
 import edu.uca.repo.*; // course, enrollment, and student repository
-import edu.uca.service.Audit;
 import edu.uca.util.*; // exceptions
 
 import java.io.*;
 import java.util.Map;
-
+/*
+    Service to register students. Implements all repository interfaces.
+ */
 public class RegistrationService implements StudentRepository, CourseRepository, EnrollmentRepository {
     // TODO: I don't think these CSVs should be here
     static final String STUDENTS_CSV = "students.csv";

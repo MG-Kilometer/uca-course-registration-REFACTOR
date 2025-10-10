@@ -19,11 +19,21 @@ public class Menu extends Output {
     }
 
     private void listStudents(Map<String, Student> students) {
-        println(students.toString());
+        for (Student student : students.values())
+            println(" - " + student);
     }
 
     private void listCourses(Map<String, Course> courses) {
-        println(courses.toString());
+        // string builder added for clarity
+        StringBuilder sb = new StringBuilder();
+
+        for (Course course : courses.values())
+            sb.append(" - ").append(course.getCode())
+                    .append(" ").append(course.getTitle())
+                    .append(" cap=").append(course.getCapacity())
+                    .append(" enrolled=").append(course.getRoster().size())
+                    .append(" wait=").append(course.getWaitlist().size());
+            println(sb.toString());
     }
 
     private void menuLoop(Map<String, Student> students, Map<String, Course> courses) {
@@ -31,6 +41,7 @@ public class Menu extends Output {
         UI ui = new UI();
 
         while (true) {
+            print("Choose next option: ");
             String choice = sc.nextLine().trim();
             switch (choice) {
                 case "1": ui.addStudentUI(sc, students); break;
