@@ -2,27 +2,29 @@ package edu.uca.registration;
 
 import edu.uca.model.Course;
 import edu.uca.model.Student;
+import edu.uca.repo.*; // course, enrollment, and student repository
 import edu.uca.service.Audit;
+import edu.uca.util.*; // exceptions
 
 import java.io.*;
 import java.util.Map;
 
-public class RegistrationService {
+public class RegistrationService implements StudentRepository, CourseRepository, EnrollmentRepository {
     static final String STUDENTS_CSV = "students.csv";
     static final String COURSES_CSV = "courses.csv";
     static final String ENROLLMENTS_CSV = "enrollments.csv";
-    static Audit audit = new Audit();
+    private static Audit audit = new Audit();
 
-    public void loadAll() {
-        loadStudents();
-        loadCourses();
-        loadEnrollments();
+    public void loadAll(Map<String, Student> students, Map<String, Course> courses) {
+        loadStudents(students);
+        loadCourses(courses);
+        loadEnrollments(courses);
     }
 
-    public void saveAll() {
-        saveStudents();
-        saveCourses();
-        saveEnrollments();
+    public void saveAll(Map<String, Student> students, Map<String, Course> courses) {
+        saveStudents(students);
+        saveCourses(courses);
+        saveEnrollments(courses);
     }
 
     public void loadStudents(Map<String, Student> students) {
@@ -38,7 +40,7 @@ public class RegistrationService {
             }
             audit.add("LOAD students=" + students.size());
         } catch (Exception e) {
-            println("Failed load students: " + e.getMessage());
+            throw new EnrollmentException("Failed load students");
         }
     }
 
@@ -48,7 +50,7 @@ public class RegistrationService {
                 pw.println(s.getId() + "," + s.getName() + "," + s.getEmail());
             }
         } catch (Exception e) {
-            println("Failed save students: " + e.getMessage());
+            throw new EnrollmentException("Failed save students");
         }
     }
 
@@ -68,7 +70,7 @@ public class RegistrationService {
             }
             audit.add("LOAD courses=" + courses.size());
         } catch (Exception e) {
-            println("Failed load courses: " + e.getMessage());
+            throw new EnrollmentException("Failed load courses");
         }
     }
 
@@ -78,7 +80,7 @@ public class RegistrationService {
                 pw.println(c.getCode() + "," + c.getTitle() + "," + c.getCapacity());
             }
         } catch (Exception e) {
-            println("Failed save courses: " + e.getMessage());
+            throw new EnrollmentException("Failed save courses");
         }
     }
 
@@ -109,7 +111,7 @@ public class RegistrationService {
             }
             audit.add("LOAD enrollments");
         } catch (Exception e) {
-            println("Failed load enrollments: " + e.getMessage());
+            throw new EnrollmentException("Failed load enrollments");
         }
     }
 
@@ -123,7 +125,7 @@ public class RegistrationService {
             }
         } catch (Exception e) {
             // TODO: add to log?
-            println("Failed save enrollments: " + e.getMessage());
+            throw new EnrollmentException("Failed save enrollments");
         }
     }
 }
