@@ -12,3 +12,4 @@
 - [change 10] - model layer now has BannerID, Email, and Name classes.
 - [change 11] - util layer now has EnrollmentInfo, Validate, ValidateCourse, and ValidateStudent classes.
 - [change 12] - model layer now does not have BannerID, Email, and Name classes.
+- [change 13] - util class now has FileIntegrity class to properly check if the CSV files are in the file directery
