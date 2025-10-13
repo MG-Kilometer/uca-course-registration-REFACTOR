@@ -67,9 +67,6 @@ public class Menu extends Output {
         Start();
         OutputMenu();
         menuLoop(students, courses);
-        // save log
-        Audit audit = new Audit();
-        audit.write_logfile();
         Exit();
     }
 }
