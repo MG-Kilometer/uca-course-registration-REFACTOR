@@ -3,6 +3,7 @@ package edu.uca.app;
 import java.util.Map;
 import java.util.Scanner;
 import edu.uca.model.*;
+import edu.uca.service.Audit;
 
 /*
     Displays main menu to CLI
@@ -66,6 +67,9 @@ public class Menu extends Output {
         Start();
         OutputMenu();
         menuLoop(students, courses);
+        // save log
+        Audit audit = new Audit();
+        audit.write_logfile();
         Exit();
     }
 }
