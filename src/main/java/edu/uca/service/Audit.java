@@ -4,6 +4,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+    Create a log for all messages about the program's progress
+ */
+
 public class Audit {
     static List<String> auditLog = new ArrayList<>();
 

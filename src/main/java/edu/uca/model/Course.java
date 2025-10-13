@@ -3,6 +3,10 @@ package edu.uca.model;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+    Define what a course is. Store course information
+ */
+
 public class Course {
     private String code, title;
     private int capacity;

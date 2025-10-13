@@ -11,6 +11,7 @@ import java.util.Map;
 /*
     Service to register students. Implements all repository interfaces.+
  */
+
 public class RegistrationService implements StudentRepository, CourseRepository, EnrollmentRepository {
     private static final Audit audit = new Audit();
     private static final Parser parser = new Parser();
@@ -34,7 +35,17 @@ public class RegistrationService implements StudentRepository, CourseRepository,
             String line;
             while ((line = br.readLine()) != null) {
                 Student student = parser.parseStudent(line);
-                students.put(student.getName(), student);
+                try {
+                    if (student == null) {
+                        audit.add("Invalid CSV input");
+                    }
+                } catch(NullPointerException e) {
+                    audit.add("Invalid CSV input");
+                    return;
+                }
+
+                assert student != null;
+                students.put(student.getName().name(), student);
             }
             audit.add("LOAD students=" + students.size());
         } catch (Exception e) {
@@ -59,8 +70,20 @@ public class RegistrationService implements StudentRepository, CourseRepository,
             String line;
             while ((line = br.readLine()) != null) {
                 Course course = parser.parseCourse(line);
-                courses.put(course.getCode(), course);
+
+                // catch null value
+                try {
+                    if (course == null) {
+                        audit.add("Invalid CSV input");
+                    }
+                } catch(NullPointerException e) {
+                    audit.add("Invalid CSV input");
+                    return;
                 }
+
+                assert course != null;
+                courses.put(course.getCode(), course);
+            }
 
             audit.add("LOAD courses=" + courses.size());
         } catch (Exception e) {
@@ -79,7 +102,6 @@ public class RegistrationService implements StudentRepository, CourseRepository,
     }
 
     public void loadEnrollments(Map<String, Course> courses, String in_csv) {
-        // TODO: add error handling
         File f = new File(in_csv);
         if (!f.exists()) return;
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
@@ -87,26 +109,37 @@ public class RegistrationService implements StudentRepository, CourseRepository,
 
             while ((line = br.readLine()) != null) {
                 // Format: courseCode|studentId|ENROLLED or WAITLIST
-                String[] enrollment_info = parser.parseEnrollment(line);
-                if (enrollment_info.length >= 3) {
-                    String code = enrollment_info[0];
-                    String student_id = enrollment_info[1], status = enrollment_info[2];
-                    Course course = courses.get(code);
+                EnrollmentInfo enrollment_info = parser.parseEnrollment(line);
 
-                    if (course == null)
-                        continue;
-                    if ("ENROLLED".equalsIgnoreCase(status)) {
-                        if (!course.getRoster().contains(student_id))
-                            course.getRoster().add(student_id);
-                    } else if ("WAITLIST".equalsIgnoreCase(status)) {
-                        if (!course.getWaitlist().contains(student_id))
-                            course.getWaitlist().add(student_id);
+                try {
+                    if (enrollment_info == null) {
+                        audit.add("Invalid CSV input (enrollment info is nullpointer).");
                     }
+                } catch(NullPointerException e) {
+                    audit.add("Invalid CSV input: " + e.getMessage());
+                    return;
+                }
+                assert enrollment_info != null;
+
+                String code = enrollment_info.code();
+                String student_id = enrollment_info.studentID(), status = enrollment_info.status();
+                Course course = courses.get(code);
+
+                if (course == null)
+                    continue;
+                if ("ENROLLED".equalsIgnoreCase(status)) {
+                    if (!course.getRoster().contains(student_id))
+                        course.getRoster().add(student_id);
+                } else if ("WAITLIST".equalsIgnoreCase(status)) {
+                    if (!course.getWaitlist().contains(student_id))
+                        course.getWaitlist().add(student_id);
                 }
             }
             audit.add("LOAD enrollments");
+
         } catch (Exception e) {
-            throw new EnrollmentException("Failed load enrollments");
+            audit.add("Failed load enrollments");
+            return;
         }
     }
 
@@ -120,7 +153,8 @@ public class RegistrationService implements StudentRepository, CourseRepository,
             }
         } catch (Exception e) {
             // TODO: add to log?
-            throw new EnrollmentException("Failed save enrollments");
+            audit.add("Failed save enrollments: " + e.getLocalizedMessage());
+            return;
         }
     }
 }

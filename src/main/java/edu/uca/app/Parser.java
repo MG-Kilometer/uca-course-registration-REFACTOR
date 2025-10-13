@@ -1,10 +1,17 @@
 package edu.uca.app;
 
+import edu.uca.util.EnrollmentInfo;
 import edu.uca.util.ValidationException;
 import edu.uca.model.*; // import course and student
+import edu.uca.service.Audit;
 
-// take in CSV, return split values
+/*
+    Define what the fields of CSVs represent, create and return objects from that data
+ */
+
 public class Parser {
+    private static final Audit audit = new Audit();
+
     private String[] split(String line) {
         final String CSV_DELIMITER = ",";
         return line.split(CSV_DELIMITER, -1);
@@ -12,13 +19,18 @@ public class Parser {
     public Student parseStudent(String line) {
         String[] split_line = split(line);
 
-        if (split_line.length != 3) {
-            throw new ValidationException("Student input string too long.");
+        try {
+            if (split_line.length != 3) {
+                throw new ValidationException("Student input string too long.");
+            }
+        } catch (ValidationException e) {
+            audit.add(e.getMessage());
+            return null;
         }
 
-        String id = split_line[0];
-        String name = split_line[1];
-        String email = split_line[2];
+        BannerID id = new BannerID(split_line[0]);
+        Name name = new Name(split_line[1]);
+        Email email = new Email(split_line[2]);
 
         return new Student(id, name, email);
     }
@@ -26,8 +38,13 @@ public class Parser {
     public Course parseCourse(String line) {
         String[] split_line = split(line);
 
-        if (split_line.length != 3) {
-            throw new ValidationException("Course input string too long.");
+        try {
+            if (split_line.length != 3) {
+                throw new ValidationException("Course input string too long.");
+            }
+        } catch (ValidationException e) {
+            audit.add(e.getMessage());
+            return null;
         }
 
         String code = split_line[0];
@@ -37,11 +54,17 @@ public class Parser {
         return new Course(code, title, cap);
     }
 
-    public String[] parseEnrollment(String line) {
+    public EnrollmentInfo parseEnrollment(String line) {
         String[] split_line = split(line);
-        if (split_line.length != 3) {
-            throw new ValidationException("Enrollment input string too long.");
+        try {
+            if (split_line.length != EnrollmentInfo.class.getConstructors()[0].getParameterCount()) {
+                throw new ValidationException("Enrollment input string too long.");
+            }
+        } catch (ValidationException e) {
+            audit.add(e.getMessage());
+            return null;
         }
-        return split_line;
+
+        return new EnrollmentInfo(split_line);
     }
 }

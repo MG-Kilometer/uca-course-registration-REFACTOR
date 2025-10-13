@@ -1,7 +1,8 @@
 package edu.uca.app;
 
-import java.time.LocalDateTime;
-import java.util.*;
+/*
+    Parent class of all classes that output to CLI
+ */
 
 public class Output {
     // -------------------- Utils --------------------

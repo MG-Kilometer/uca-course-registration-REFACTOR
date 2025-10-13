@@ -3,23 +3,60 @@ package edu.uca.app;
 import edu.uca.model.*;
 import edu.uca.service.Audit;
 import edu.uca.util.EnrollmentException;
+import edu.uca.util.ValidateStudent;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Scanner;
 
+/*
+    Handles actual implementations of menu functions
+ */
+
 public class UI extends Output {
-    static Audit audit = new Audit();
-    
+    private static final Audit audit = new Audit();
+
+    private boolean testValidity(ArrayList<ValidateStudent> val_objs) {
+        for (ValidateStudent v : val_objs) {
+            if (!v.getResult()) { // if a pattern does not match input, meaning list is invalid
+                return true;
+            }
+        }
+        return false; // all patterns match all inputs, so list is not invalid
+    }
+
     public void addStudentUI(Scanner sc, Map<String, Student> students) {
-        print("Banner ID: ");
-        String id = sc.nextLine().trim();
-        print("Name: ");
-        String name = sc.nextLine().trim();
-        print("Email: ");
-        String email = sc.nextLine().trim();
-        Student student = new Student(id, name, email);
-        students.put(id, student);
-        audit.add("ADD_STUDENT " + id);
+        ArrayList<ValidateStudent> val_objs = new ArrayList<>();
+        boolean invalid = true;
+        BannerID b_id = null;
+        Name name = null;
+        Email email = null;
+
+        // while input does not match pattern...
+        while (invalid) {
+            val_objs.clear();
+
+            print("Banner ID: ");
+            b_id = new BannerID(sc.nextLine().trim());
+            val_objs.add(new ValidateStudent(b_id));
+
+            print("Name: ");
+            name = new Name(sc.nextLine().trim());
+            val_objs.add(new ValidateStudent(name));
+
+
+            print("Email: ");
+            email = new Email(sc.nextLine().trim());
+            val_objs.add(new ValidateStudent(email));
+
+            invalid = testValidity(val_objs);
+        }
+
+        // if validated
+        Student student = new Student(b_id, name, email);
+        students.put(b_id.id(), student);
+        audit.add("ADD_STUDENT " + b_id);
+
     }
 
     public void addCourseUI(Scanner sc, Map<String, Course> courses) {

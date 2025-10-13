@@ -5,9 +5,12 @@ import edu.uca.service.Audit;
 import edu.uca.model.*; // import student and course
 import edu.uca.service.RegistrationService;
 import edu.uca.util.InCSV;
-import edu.uca.util.OutCSV;
 
 import java.util.*;
+
+/*
+    Implements all files.
+ */
 
 public class Main {
     private static final String STUDENTS_CSV = "students.csv";
@@ -40,8 +43,8 @@ public class Main {
 
     // -------------------- Demo data --------------------
     private static void seedDemoData(Map<String, Student> students, Map<String, Course> courses) {
-        students.put("B001", new Student("B001", "Alice", "alice@uca.edu"));
-        students.put("B002", new Student("B002", "Brian", "brian@uca.edu"));
+        students.put("B001", new Student(new BannerID("B001"), new Name("Alice"), new Email("alice@uca.edu")));
+        students.put("B002", new Student(new BannerID("B002"), new Name("Brian"), new Email("brian@uca.edu")));
         courses.put("CSCI4490", new Course("CSCI4490", "Software Engineering", 2));
         courses.put("MATH1496", new Course("MATH1496", "Calculus I", 50));
     }

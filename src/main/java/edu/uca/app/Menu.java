@@ -4,6 +4,10 @@ import java.util.Map;
 import java.util.Scanner;
 import edu.uca.model.*;
 
+/*
+    Displays main menu to CLI
+ */
+
 public class Menu extends Output {
 
     private void OutputMenu() {
