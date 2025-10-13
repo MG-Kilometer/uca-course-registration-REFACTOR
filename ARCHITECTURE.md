@@ -35,4 +35,7 @@
 ![pre-refactored UML class diagram](images/filename.pdf)
 
 # post-refactored UML class diagram
-![post-refactored UML class diagram](images/filename.pdf)
+![post-refactored UML class diagram](images\After%20class%20diagram.pdf)
+
+# post-refactored UML package diagram
+![post-refactored UML class diagram](images\After%20package%20diagram.pdf)
