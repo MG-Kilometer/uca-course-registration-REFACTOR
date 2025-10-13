@@ -1,1 +1,0 @@
-[2025-10-12T20:30:01.264545400 | SEED demo data, 2025-10-12T20:30:22.381323300 | An error with enrollments has occurred: No such course, 2025-10-12T20:30:22.384328 | An error with enrollments has occurred: No such course, 2025-10-12T20:30:37.653337200 | ENROLL B002->CSCI4490]
