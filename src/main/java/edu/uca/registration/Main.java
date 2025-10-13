@@ -4,8 +4,8 @@ import edu.uca.app.Menu;
 import edu.uca.service.Audit;
 import edu.uca.model.*; // import student and course
 import edu.uca.service.RegistrationService;
+import edu.uca.util.FileIntegrity;
 import edu.uca.util.InCSV;
-import edu.uca.util.OutCSV;
 import edu.uca.util.ValidateCourse;
 import edu.uca.util.ValidateStudent;
 
@@ -16,23 +16,12 @@ import java.util.*;
  */
 
 public class Main {
-    // input csvs
     private static final String STUDENTS_CSV = "students.csv";
     private static final String COURSES_CSV = "courses.csv";
     private static final String ENROLLMENTS_CSV = "enrollments.csv";
-    private static final InCSV InCSV = new InCSV(STUDENTS_CSV,
-            COURSES_CSV,
-            ENROLLMENTS_CSV);
-
-    // output csvs
-    private static final String OUT_STUDENTS_CSV = "out_students.csv";
-    private static final String OUT_COURSES_CSV = "out_courses.csv";
-    private static final String OUT_ENROLLMENTS_CSV = "out_enrollments.csv";
-    private static final OutCSV OUTCSV = new OutCSV(OUT_STUDENTS_CSV,
-            OUT_COURSES_CSV,
-            OUT_ENROLLMENTS_CSV);
-
-
+    private static final InCSV InCSV = new InCSV(STUDENTS_CSV, COURSES_CSV, ENROLLMENTS_CSV);
+    private static final FileIntegrity checkFileIntegrity = new FileIntegrity(STUDENTS_CSV, COURSES_CSV, ENROLLMENTS_CSV);
+    
     public static void main(String[] args) {
         Menu menu = new Menu();
         Audit audit = new Audit();
@@ -50,8 +39,10 @@ public class Main {
             register.loadAll(students, courses, InCSV);
         }
         menu.createMenu(students, courses);
-        register.saveAll(students, courses, OUTCSV);
     }
+
+    // -------------------- Persistence --------------------
+
 
     // -------------------- Demo data --------------------
     private static void seedDemoData(Map<String, Student> students, Map<String, Course> courses) {
