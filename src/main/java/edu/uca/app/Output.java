@@ -12,7 +12,7 @@ public class Output {
     public Output() {}
 
     protected void Start() {
-        println("=== UCA Course Registration (Baseline) ===");
+        println("=== UCA Course Registration (Refactored) ===");
         println("NOTE: This code has been refactored.");
     }
 
