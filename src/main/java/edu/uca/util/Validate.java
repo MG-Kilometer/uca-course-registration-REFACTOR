@@ -10,7 +10,7 @@ public class Validate {
     private static final int CHAR_LIMIT = 50;
 
     // constructor that actually validates the data according to pattern supplied and generic rules
-    public Validate(String pattern, String data) {
+    public void Validate_String(String pattern, String data) {
         try {
             if (pattern == null || pattern.isEmpty()) {
                 throw new IllegalArgumentException("pattern cannot be null or empty");

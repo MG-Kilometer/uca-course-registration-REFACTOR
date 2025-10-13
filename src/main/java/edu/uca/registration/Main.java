@@ -5,6 +5,8 @@ import edu.uca.service.Audit;
 import edu.uca.model.*; // import student and course
 import edu.uca.service.RegistrationService;
 import edu.uca.util.InCSV;
+import edu.uca.util.ValidateCourse;
+import edu.uca.util.ValidateStudent;
 
 import java.util.*;
 
@@ -43,9 +45,45 @@ public class Main {
 
     // -------------------- Demo data --------------------
     private static void seedDemoData(Map<String, Student> students, Map<String, Course> courses) {
-        students.put("B001", new Student(new BannerID("B001"), new Name("Alice"), new Email("alice@uca.edu")));
-        students.put("B002", new Student(new BannerID("B002"), new Name("Brian"), new Email("brian@uca.edu")));
-        courses.put("CSCI4490", new Course("CSCI4490", "Software Engineering", 2));
-        courses.put("MATH1496", new Course("MATH1496", "Calculus I", 50));
+        ValidateStudent validateStudent = new ValidateStudent();
+        ValidateCourse validateCourse = new ValidateCourse();
+
+        // add data
+        ArrayList<String[]> student_data = new ArrayList<>();
+        student_data.add(new String[] {"B001", "Alice", "alice@uca.edu"});
+        student_data.add(new String[] {"B002", "Brian", "brian@uca.edu"});
+        // validate student data
+        for (String[] student : student_data) {
+            if (!validateStudent.ValidateID(student[0])) {
+                continue;
+            }
+            if (!validateStudent.ValidateName(student[1])) {
+                continue;
+            }
+            if (!validateStudent.ValidateEmail(student[2])) {
+                continue;
+            }
+
+            students.put(student[0], new Student(student[0], student[1], student[2]));
+        }
+
+        // add course data
+        ArrayList<String[]> course_data = new ArrayList<>();
+        course_data.add(new String[] {"CSCI4490", "Software Engineering", "2"});
+        course_data.add(new String[] {"Math1496", "Calculus I", "50"});
+        // validate course data
+        for (String[] course : course_data) {
+            if (!validateCourse.Validate_Code(course[0])) {
+                continue;
+            }
+            if (!validateCourse.Validate_Title(course[1])) {
+                continue;
+            }
+            if (!validateCourse.Validate_Capacity(course[2])) {
+                continue;
+            }
+
+            courses.put(course[0], new Course(course[0], course[1], Integer.parseInt(course[2])));
+        }
     }
 }

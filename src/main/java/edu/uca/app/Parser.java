@@ -1,6 +1,8 @@
 package edu.uca.app;
 
 import edu.uca.util.EnrollmentInfo;
+import edu.uca.util.Validate;
+import edu.uca.util.ValidateStudent;
 import edu.uca.util.ValidationException;
 import edu.uca.model.*; // import course and student
 import edu.uca.service.Audit;
@@ -11,6 +13,7 @@ import edu.uca.service.Audit;
 
 public class Parser {
     private static final Audit audit = new Audit();
+    private static final ValidateStudent validateStudent = new ValidateStudent();
 
     private String[] split(String line) {
         final String CSV_DELIMITER = ",";
@@ -18,6 +21,9 @@ public class Parser {
     }
     public Student parseStudent(String line) {
         String[] split_line = split(line);
+        String id = "";
+        String name = "";
+        String email = "";
 
         try {
             if (split_line.length != 3) {
@@ -28,10 +34,24 @@ public class Parser {
             return null;
         }
 
-        BannerID id = new BannerID(split_line[0]);
-        Name name = new Name(split_line[1]);
-        Email email = new Email(split_line[2]);
-
+        // validate
+        try {
+            if (validateStudent.ValidateID(split_line[0]))
+                id = split_line[0];
+            else
+                throw new ValidationException("Failed to validate id from CSV");
+            if (validateStudent.ValidateName(split_line[1]))
+                name = split_line[1];
+            else
+                throw new ValidationException("Failed to validate name from CSV");
+            if (validateStudent.ValidateName(split_line[2]))
+                email = split_line[2];
+            else
+                throw new ValidationException("Failed to validate email from CSV");
+        } catch(ValidationException e) {
+            audit.add(e.getMessage());
+            return null;
+        }
         return new Student(id, name, email);
     }
 

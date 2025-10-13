@@ -45,7 +45,7 @@ public class RegistrationService implements StudentRepository, CourseRepository,
                 }
 
                 assert student != null;
-                students.put(student.getName().name(), student);
+                students.put(student.getName(), student);
             }
             audit.add("LOAD students=" + students.size());
         } catch (Exception e) {
