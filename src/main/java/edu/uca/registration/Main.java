@@ -4,6 +4,7 @@ import edu.uca.app.Menu;
 import edu.uca.service.Audit;
 import edu.uca.model.*; // import student and course
 import edu.uca.service.RegistrationService;
+import edu.uca.util.FileIntegrity;
 import edu.uca.util.InCSV;
 import edu.uca.util.ValidateCourse;
 import edu.uca.util.ValidateStudent;
@@ -18,10 +19,9 @@ public class Main {
     private static final String STUDENTS_CSV = "students.csv";
     private static final String COURSES_CSV = "courses.csv";
     private static final String ENROLLMENTS_CSV = "enrollments.csv";
-    private static final InCSV InCSV = new InCSV(STUDENTS_CSV,
-            COURSES_CSV,
-            ENROLLMENTS_CSV);
-
+    private static final InCSV InCSV = new InCSV(STUDENTS_CSV, COURSES_CSV, ENROLLMENTS_CSV);
+    private static final FileIntegrity checkFileIntegrity = new FileIntegrity(STUDENTS_CSV, COURSES_CSV, ENROLLMENTS_CSV);
+    
     public static void main(String[] args) {
         Menu menu = new Menu();
         Audit audit = new Audit();
@@ -42,6 +42,7 @@ public class Main {
     }
 
     // -------------------- Persistence --------------------
+
 
     // -------------------- Demo data --------------------
     private static void seedDemoData(Map<String, Student> students, Map<String, Course> courses) {
