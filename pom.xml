@@ -5,7 +5,7 @@
   <groupId>edu.uca</groupId>
   <artifactId>course-registration</artifactId>
   <version>0.1.0</version>
-  <name>UCA Course Registration (Messy Baseline)</name>
+  <name>UCA Course Registration (Refactored)</name>
   <properties>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
