@@ -20,6 +20,7 @@ public class Main {
     private static final String COURSES_CSV = "courses.csv";
     private static final String ENROLLMENTS_CSV = "enrollments.csv";
     private static final InCSV InCSV = new InCSV(STUDENTS_CSV, COURSES_CSV, ENROLLMENTS_CSV);
+    private static final InCSV OUTCSV = new InCSV(STUDENTS_CSV, COURSES_CSV, ENROLLMENTS_CSV);
     private static final FileIntegrity checkFileIntegrity = new FileIntegrity(STUDENTS_CSV, COURSES_CSV, ENROLLMENTS_CSV);
     
     public static void main(String[] args) {
@@ -39,6 +40,7 @@ public class Main {
             register.loadAll(students, courses, InCSV);
         }
         menu.createMenu(students, courses);
+        register.saveAll(students, courses, OUTCSV);
     }
 
     // -------------------- Persistence --------------------

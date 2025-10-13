@@ -44,7 +44,7 @@ public class Parser {
                 name = split_line[1];
             else
                 throw new ValidationException("Failed to validate name from CSV");
-            if (validateStudent.ValidateName(split_line[2]))
+            if (validateStudent.ValidateEmail(split_line[2]))
                 email = split_line[2];
             else
                 throw new ValidationException("Failed to validate email from CSV");

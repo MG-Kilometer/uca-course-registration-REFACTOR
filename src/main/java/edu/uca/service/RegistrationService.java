@@ -22,7 +22,7 @@ public class RegistrationService implements StudentRepository, CourseRepository,
         loadEnrollments(courses, inCSV.enrollment_csv());
     }
 
-    public void saveAll(Map<String, Student> students, Map<String, Course> courses, OutCSV outCSV) {
+    public void saveAll(Map<String, Student> students, Map<String, Course> courses, InCSV outCSV) {
         saveStudents(students, outCSV.student_csv());
         saveCourses(courses, outCSV.course_csv());
         saveEnrollments(courses, outCSV.enrollment_csv());
