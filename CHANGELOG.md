@@ -8,4 +8,6 @@
 - [change 6] - service layer now has classes Audit and RegistrationService.
 - [change 7] - util layer now has the exceptions for enrollment and validation.
 - [change 8] - app layer now has Parser class.
-- [change 9] - util layer now has InCSV and OutCSV classes
+- [change 9] - util layer now has InCSV and OutCSV classes.
+- [change 10] - model layer now has BannerID, Email, and Name classes.
+- [change 11] - util layer now has EnrollmentInfo, Validate, ValidateCourse, and ValidateStudent classes.
