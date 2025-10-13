@@ -3,6 +3,7 @@ package edu.uca.app;
 import java.util.Map;
 import java.util.Scanner;
 import edu.uca.model.*;
+import edu.uca.service.Audit;
 
 /*
     Displays main menu to CLI
