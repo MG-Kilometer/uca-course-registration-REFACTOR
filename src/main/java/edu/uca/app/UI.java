@@ -41,16 +41,16 @@ public class UI extends Output {
             results.clear();
 
             print("Banner ID: ");
-            b_id = sc.nextLine().trim();
+            b_id = sc.next().trim();
             results.add(validateStudent.ValidateID(b_id));
 
             print("Name: ");
-            name = sc.nextLine().trim();
+            name = sc.next().trim();
             results.add(validateStudent.ValidateName(name));
 
 
             print("Email: ");
-            email = sc.nextLine().trim();
+            email = sc.next().trim();
             results.add(validateStudent.ValidateEmail(email));
 
             invalid = testValidity(results);
@@ -74,15 +74,15 @@ public class UI extends Output {
             results.clear();
 
             print("Course Code: ");
-            code = sc.nextLine().trim();
+            code = sc.next().trim();
             results.add(validateCourse.Validate_Code(code));
 
             print("Title: ");
-            title = sc.nextLine().trim();
+            title = sc.next().trim();
             results.add(validateCourse.Validate_Title(title));
 
             print("Capacity: ");
-            capacity = sc.nextLine().trim();
+            capacity = sc.next().trim();
             results.add(validateCourse.Validate_Capacity(capacity)); // convert into int once validated
 
             invalid = testValidity(results);
@@ -96,9 +96,9 @@ public class UI extends Output {
 
     public void enrollUI(Scanner sc, Map<String, Course> courses) {
         print("Student ID: ");
-        String student_id = sc.nextLine().trim();
+        String student_id = sc.next().trim();
         print("Course Code: ");
-        String course_code = sc.nextLine().trim();
+        String course_code = sc.next().trim();
         Course course = courses.get(course_code);
         try {
             if (course == null) {
@@ -131,9 +131,9 @@ public class UI extends Output {
 
     public void dropUI(Scanner sc, Map<String, Course> courses) {
         print("Student ID: ");
-        String student_id = sc.nextLine().trim();
+        String student_id = sc.next().trim();
         print("Course Code: ");
-        String course_id = sc.nextLine().trim();
+        String course_id = sc.next().trim();
         Course course = courses.get(course_id);
         if (course == null) { println("No such course"); return; }
 
