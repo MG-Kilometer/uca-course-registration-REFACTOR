@@ -11,6 +11,10 @@
     <maven.compiler.target>17</maven.compiler.target>
   </properties>
   <dependencies>
+	<groupId> org.junit.jupiter </groupId>
+	<artifactId> junit-jupiter-engine </artifactId>
+	<version> 5.11.0-M2 </version>
+	<scope> test </scope>
   </dependencies>
   <build>
     <plugins>
