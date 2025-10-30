@@ -275,10 +275,10 @@ public class ComponentTest {
             ogStudents.put("B002", new Student("B002", "JaneDoe", "jdoe@uca.edu"));
 
             Map<String, Course> ogCourses = new LinkedHashMap<>();
-            Course linux = new Course("CSCI3300", "Linux", 1);
-            linux.getRoster().add("B001"); 
-            linux.getWaitlist().add("B002"); // Waitlisted
-            ogCourses.put("CSCI3300", linux);
+            Course course1 = new Course("CSCI1000", "Intro", 1);
+            course1.getRoster().add("B001"); 
+            course1.getWaitlist().add("B002"); // Waitlisted
+            ogCourses.put("CSCI3300", course1);
 
             //1. Test Saving
             //Create files 
