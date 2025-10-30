@@ -14,3 +14,10 @@ Clone this github link into your IDE: https://github.com/MG-Kilometer/uca-course
 Let the IDE create a project enviroment around the Git pull
 Run the Main located in this relative path location src/main/java/edu/uca/registration/Main.java
 ```
+## Test
+If you are using an java IDE:
+```bash
+Clone this github link into your IDE: https://github.com/MG-Kilometer/uca-course-registration-REFACTOR.git
+Let the IDE create a project enviroment around the Git pull
+Run the Testing runner located in this relative path location src/main/java/edu/uca/testing/TestMain.java
+```
