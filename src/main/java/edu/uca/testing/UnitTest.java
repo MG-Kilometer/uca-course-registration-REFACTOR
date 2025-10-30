@@ -29,7 +29,7 @@ import java.util.*;
 public class UnitTest {
 
     public UnitTest() {
-        System.out.println("\n\n--- System Level Tests ---\n\n");
+        System.out.println("\n\n--- Unit Level Tests ---\n\n");
         testMenu();
         testOutput();
         testParser();
@@ -260,17 +260,13 @@ private void testOutput() {
 
         Audit audit = new Audit();
 
-        // 1. test adding an event
+        //test adding an event
         String testEvent = "TEST_EVENT";
         audit.add(testEvent);
 
-        // check if the last entry contains the event string
-        // the internal list is private, so we can rely on the fact that write_logfile didn't throw
-        // for more visibility, you could add a getter in Audit for testing purposes, but keeping it simple here
-
         System.out.println("Audit event added. Passed check.");
 
-        // 2. test writing the logfile (will attempt to write "log.txt")
+        //test writing the logfile
         try {
             audit.write_logfile();
             System.out.println("Write logfile executed. Passed check.");
@@ -288,7 +284,7 @@ private void testOutput() {
         Map<String, Student> students = new HashMap<>();
         Map<String, Course> courses = new HashMap<>();
 
-        // 1. loadStudents with valid and invalid lines
+        // loadStudents with valid and invalid lines
         List<String> studentLines = Arrays.asList(
                 "B001, John Smith, jsmith@uca.edu",  // valid
                 "B002, Jane Smith, invalid-email"    // invalid email
@@ -299,7 +295,7 @@ private void testOutput() {
         }
         System.out.println("Students loaded: " + students.size() + " (expected 1). Passed check. (the fail message above is intended)");
 
-        // 2. loadCourses with valid lines
+        //loadCourses with valid lines
         List<String> courseLines = Arrays.asList(
                 "CSCI1000,IntroCS,2",
                 "CSCI2000,DataStruct,1"
@@ -310,7 +306,7 @@ private void testOutput() {
         }
         System.out.println("Courses loaded: " + courses.size() + " (expected 2). Passed check.");
 
-        // 3. loadEnrollments with mix of enrolled/waitlist
+        //loadEnrollments with mix of enrolled/waitlist
         List<String> enrollLines = Arrays.asList(
                 "CSCI1000|B001|ENROLLED",
                 "CSCI1000|B002|WAITLIST"
@@ -328,7 +324,7 @@ private void testOutput() {
         System.out.println("CSCI1000 roster size: " + courses.get("CSCI1000").getRoster().size() + " (expected 1). Passed check.");
         System.out.println("CSCI1000 waitlist size: " + courses.get("CSCI1000").getWaitlist().size() + " (expected 1). Passed check.");
 
-        // 4. test save methods (just ensure no exceptions)
+        // test save methods (just ensure no exceptions)
         try {
             reg.saveStudents(students, "students_out.csv");
             reg.saveCourses(courses, "courses_out.csv");
@@ -362,15 +358,15 @@ private void testOutput() {
         System.out.println("\n--- Validate Test ---\n");
         Validate v = new Validate();
 
-        // Test valid data
+        // test valid data
         v.Validate_String("^[A-Za-z]+$", "John");
         assert v.getResult() : "Validate failed on valid data";
 
-        // Test invalid data
+        // test invalid data
         v.Validate_String("^[A-Za-z]+$", "John123");
         assert !v.getResult() : "Validate incorrectly passed invalid data";
 
-        // Test long data exceeding CHAR_LIMIT
+        // test long data exceeding CHAR_LIMIT
         String longData = "a".repeat(51);
         v.Validate_String(".*", longData);
         System.out.println("Validate class tested valid/invalid/long input. Passed check.");
@@ -496,7 +492,7 @@ private void testOutput() {
     }
 
 
-    // Overloads to make calling captureInvoke for methods with parameters easier
+    //overloads to make calling captureInvoke for methods with parameters easier
     private String captureInvoke(Object obj, String methodName, Class<?> paramType, Object arg) {
         return captureInvoke(obj, methodName, new Class<?>[]{paramType}, arg);
     }
