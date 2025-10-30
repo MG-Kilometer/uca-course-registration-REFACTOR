@@ -17,6 +17,9 @@ public class SystemTest {
                 5. Waitlist promotion
                 6. List students
          */
+
+        System.out.println("\n\n--- System Level Tests ---\n\n");
+
         UI ui = new UI();
 
         // 1. add students (2 needed for waitlist promotion)

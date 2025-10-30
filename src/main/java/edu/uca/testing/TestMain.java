@@ -5,12 +5,12 @@ public class TestMain {
 
         // unit test
         UnitTest unit_test = new UnitTest();
-        
+
         // component test
         ComponentTest comp_test = new ComponentTest();
 
         // system test
-        SystemTest sys_test = new SystemTest(); // runs tests
+        SystemTest sys_test = new SystemTest();
 
     }
 }

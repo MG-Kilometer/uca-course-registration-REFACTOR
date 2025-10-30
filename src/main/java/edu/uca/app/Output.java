@@ -11,12 +11,12 @@ public class Output {
 
     public Output() {}
 
-    protected void Start() {
+    public void Start() {
         println("=== UCA Course Registration (Refactored) ===");
         println("NOTE: This code has been refactored.");
     }
 
-    protected void Exit() {
+    public void Exit() {
         println("Goodbye!");
     }
 }
