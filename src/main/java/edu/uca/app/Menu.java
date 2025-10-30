@@ -2,8 +2,9 @@ package edu.uca.app;
 
 import java.util.Map;
 import java.util.Scanner;
-import edu.uca.model.*;
-import edu.uca.service.Audit;
+
+import edu.uca.model.Course;
+import edu.uca.model.Student;
 
 /*
     Displays main menu to CLI
@@ -51,14 +52,16 @@ public class Menu extends Output {
             print("Select next option: ");
             String choice = sc.nextLine().trim();
             switch (choice) {
-                case "1": ui.addStudentUI(sc, students); break;
-                case "2": ui.addCourseUI(sc, courses); break;
-                case "3": ui.enrollUI(sc, courses); break;
-                case "4": ui.dropUI(sc, courses); break;
-                case "5": listStudents(students); break;
-                case "6": listCourses(courses); break;
-                case "0": return;
-                default: println("Invalid"); break;
+                case "1" -> ui.addStudentUI(sc, students);
+                case "2" -> ui.addCourseUI(sc, courses);
+                case "3" -> ui.enrollUI(sc, courses);
+                case "4" -> ui.dropUI(sc, courses);
+                case "5" -> listStudents(students);
+                case "6" -> listCourses(courses);
+                case "0" -> {
+                    return;
+                }
+                default -> println("Invalid");
             }
         }
     }

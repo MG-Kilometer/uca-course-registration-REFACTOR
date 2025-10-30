@@ -1,15 +1,17 @@
 package edu.uca.registration;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map; // import student and course
+
 import edu.uca.app.Menu;
+import edu.uca.model.Course;
+import edu.uca.model.Student;
 import edu.uca.service.Audit;
-import edu.uca.model.*; // import student and course
 import edu.uca.service.RegistrationService;
-import edu.uca.util.FileIntegrity;
 import edu.uca.util.InCSV;
 import edu.uca.util.ValidateCourse;
 import edu.uca.util.ValidateStudent;
-
-import java.util.*;
 
 /*
     Implements all files.
@@ -21,7 +23,6 @@ public class Main {
     private static final String ENROLLMENTS_CSV = "enrollments.csv";
     private static final InCSV InCSV = new InCSV(STUDENTS_CSV, COURSES_CSV, ENROLLMENTS_CSV);
     private static final InCSV OUTCSV = new InCSV(STUDENTS_CSV, COURSES_CSV, ENROLLMENTS_CSV);
-    private static final FileIntegrity checkFileIntegrity = new FileIntegrity(STUDENTS_CSV, COURSES_CSV, ENROLLMENTS_CSV);
     
     public static void main(String[] args) {
         Menu menu = new Menu();

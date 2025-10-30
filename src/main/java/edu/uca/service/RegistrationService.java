@@ -1,12 +1,21 @@
 package edu.uca.service;
 
-import edu.uca.model.*; // add course and student classes
-import edu.uca.repo.*; // course, enrollment, and student repository
-import edu.uca.util.*; // exceptions
-import edu.uca.app.Parser;
-
-import java.io.*;
+import java.io.BufferedReader; // add course and student classes
+import java.io.File; // course, enrollment, and student repository
+import java.io.FileReader; // exceptions
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.Map;
+
+import edu.uca.app.Parser;
+import edu.uca.model.Course;
+import edu.uca.model.Student;
+import edu.uca.repo.CourseRepository;
+import edu.uca.repo.EnrollmentRepository;
+import edu.uca.repo.StudentRepository;
+import edu.uca.util.EnrollmentException;
+import edu.uca.util.EnrollmentInfo;
+import edu.uca.util.InCSV;
 
 /*
     Service to register students. Implements all repository interfaces.+
@@ -28,6 +37,7 @@ public class RegistrationService implements StudentRepository, CourseRepository,
         saveEnrollments(courses, outCSV.enrollment_csv());
     }
 
+    @Override
     public void loadStudents(Map<String, Student> students, String in_csv) {
         File f = new File(in_csv);
         if (!f.exists()) return;
@@ -53,6 +63,7 @@ public class RegistrationService implements StudentRepository, CourseRepository,
         }
     }
 
+    @Override
     public void saveStudents(Map<String, Student> students, String out_csv) {
         try (PrintWriter pw = new PrintWriter(new FileWriter(out_csv))) {
             for (Student s : students.values()) {
@@ -63,6 +74,7 @@ public class RegistrationService implements StudentRepository, CourseRepository,
         }
     }
 
+    @Override
     public void loadCourses(Map<String, Course> courses, String in_csv) {
         File f = new File(in_csv);
         if (!f.exists()) return;
@@ -91,6 +103,7 @@ public class RegistrationService implements StudentRepository, CourseRepository,
         }
     }
 
+    @Override
     public void saveCourses(Map<String, Course> courses, String out_csv) {
         try (PrintWriter pw = new PrintWriter(new FileWriter(out_csv))) {
             for (Course c : courses.values()) {
@@ -101,6 +114,7 @@ public class RegistrationService implements StudentRepository, CourseRepository,
         }
     }
 
+    @Override
     public void loadEnrollments(Map<String, Course> courses, String in_csv) {
         File f = new File(in_csv);
         if (!f.exists()) return;
@@ -139,10 +153,10 @@ public class RegistrationService implements StudentRepository, CourseRepository,
 
         } catch (Exception e) {
             audit.add("Failed load enrollments");
-            return;
         }
     }
 
+    @Override
     public void saveEnrollments(Map<String, Course> courses, String out_csv) {
         try (PrintWriter pw = new PrintWriter(new FileWriter(out_csv))) {
             for (Course course : courses.values()) {
@@ -154,7 +168,6 @@ public class RegistrationService implements StudentRepository, CourseRepository,
         } catch (Exception e) {
             // TODO: add to log?
             audit.add("Failed save enrollments: " + e.getLocalizedMessage());
-            return;
         }
     }
 }

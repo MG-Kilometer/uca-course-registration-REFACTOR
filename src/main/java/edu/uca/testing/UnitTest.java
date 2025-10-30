@@ -1,6 +1,17 @@
 package edu.uca.testing;
 
 //import the classes being tested
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.PrintStream;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
 import edu.uca.app.Menu;
 import edu.uca.app.Output;
 import edu.uca.app.Parser;
@@ -11,20 +22,12 @@ import edu.uca.service.Audit;
 import edu.uca.service.RegistrationService;
 import edu.uca.util.EnrollmentException;
 import edu.uca.util.EnrollmentInfo;
-import edu.uca.util.FileIntegrity;
 import edu.uca.util.InCSV;
 import edu.uca.util.OutCSV;
 import edu.uca.util.Validate;
 import edu.uca.util.ValidateCourse;
 import edu.uca.util.ValidateStudent;
 import edu.uca.util.ValidationException;
-
-//extra imports to ensure that each test functions properly
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.PrintStream;
-import java.lang.reflect.Method;
-import java.util.*;
 
 public class UnitTest {
 
@@ -430,8 +433,6 @@ private void testOutput() {
         String studentsCSV = "test_students.csv";
         String coursesCSV = "test_courses.csv";
         String enrollmentsCSV = "test_enrollments.csv";
-
-        FileIntegrity fi = new FileIntegrity(studentsCSV, coursesCSV, enrollmentsCSV);
 
         File f1 = new File(studentsCSV);
         File f2 = new File(coursesCSV);
