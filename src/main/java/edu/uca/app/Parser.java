@@ -1,13 +1,12 @@
 package edu.uca.app;
 
-import edu.uca.util.EnrollmentInfo;
-import edu.uca.util.ValidateStudent;
-import edu.uca.util.ValidateCourse;
-import edu.uca.util.ValidationException;
-import edu.uca.model.*; // import course and student
+import edu.uca.model.Course;
+import edu.uca.model.Student;
 import edu.uca.service.Audit;
-
-import java.util.Arrays;
+import edu.uca.util.EnrollmentInfo;
+import edu.uca.util.ValidateCourse; // import course and student
+import edu.uca.util.ValidateStudent;
+import edu.uca.util.ValidationException;
 
 /*
     Define what the fields of CSVs represent, create and return objects from that data
@@ -73,7 +72,7 @@ public class Parser {
         String[] split_line = split(line);
         String code = "";
         String title = "";
-        int capacity = 0;
+        int capacity;
 
         try {
             if (split_line.length < 3)
