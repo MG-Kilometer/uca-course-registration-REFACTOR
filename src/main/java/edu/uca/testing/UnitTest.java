@@ -128,7 +128,7 @@ private void testOutput() {
         System.out.println("\n--- Parser Class Tests ---\n");
         Parser parser = new Parser();
 
-        // 1. valid student line
+        // valid student line
         String studentLine = "B001, John Smith, jsmith@uca.edu";
         Student s = parser.parseStudent(studentLine);
         assert s != null : "Valid student line returned null";
@@ -136,7 +136,7 @@ private void testOutput() {
         assert s.getName().equals("JohnSmith") : "Student name mismatch";
         assert s.getEmail().equals("jsmith@uca.edu") : "Student email mismatch";
 
-        // 2. invalid student (too many parts)
+        // invalid student (too many parts)
         String badStudentLine = "B002, Jane Smith, jsmith@uca.edu,extra";
         Student sBad = parser.parseStudent(badStudentLine);
         if (sBad == null) {
@@ -145,7 +145,7 @@ private void testOutput() {
             System.out.println("Failed: invalid student line should return null");
         }
 
-        // 3. valid course
+        // valid course
         String courseLine = "CSCI4000,GermanI,2";
         Course c = parser.parseCourse(courseLine);
         assert c != null : "Valid course line returned null";
@@ -153,7 +153,7 @@ private void testOutput() {
         assert c.getTitle().equals("GermanI") : "Course title mismatch";
         assert c.getCapacity() == 2 : "Course capacity mismatch";
 
-        // 4. invalid course (too few parts)
+        // invalid course (too few parts)
         String badCourseLine = "CSCI4000,GermanI";
         Course cBad = parser.parseCourse(badCourseLine);
         if (cBad == null) {
@@ -162,12 +162,12 @@ private void testOutput() {
             System.out.println("Failed: invalid course line should return null");
         }
 
-        // 5. valid enrollment
+        //valid enrollment
         String enrollLine = "B001,CSCI4000,A";
         EnrollmentInfo e = parser.parseEnrollment(enrollLine);
         assert e != null : "Valid enrollment line returned null";
 
-        // 6. invalid enrollment (too many parts)
+        //invalid enrollment (too many parts)
         String badEnrollLine = "B001,CSCI4000,A,extra";
         EnrollmentInfo eBad = parser.parseEnrollment(badEnrollLine);
         if (eBad == null) {
@@ -185,36 +185,36 @@ private void testOutput() {
         Map<String, Student> students = new HashMap<>();
         Map<String, Course> courses = new HashMap<>();
 
-        // 1. Test addStudentUI with valid input
+        // test addStudentUI with valid input
         Scanner sc1 = new Scanner("B001 John jsmith@uca.edu");
         ui.addStudentUI(sc1, students);
         assert students.containsKey("B001") : "Failed to add student";
         System.out.println("Passed addStudentUI valid input check");
 
-        // 2. Test addCourseUI with valid input
+        // test addCourseUI with valid input
         Scanner sc2 = new Scanner("CSCI4000 GermanI 2");
         ui.addCourseUI(sc2, courses);
         assert courses.containsKey("CSCI4000") : "Failed to add course";
         System.out.println("Passed addCourseUI valid input check");
 
-        // 3. Test enrollUI with valid course and student
+        // test enrollUI with valid course and student
         Scanner sc3 = new Scanner("B001 CSCI4000");
         ui.enrollUI(sc3, courses);
         Course c = courses.get("CSCI4000");
         assert c.getRoster().contains("B001") : "Failed to enroll student";
         System.out.println("Passed enrollUI valid enrollment check");
 
-        // 4. Test dropUI to drop existing student
+        // test dropUI to drop existing student
         Scanner sc4 = new Scanner("B001 CSCI4000");
         ui.dropUI(sc4, courses);
         assert !c.getRoster().contains("B001") : "Failed to drop student";
         System.out.println("Passed dropUI drop student check");
 
-        // 5. Test listStudents output (lightweight, no assertions)
+        // test listStudents output
         System.out.println("\nExpected list of students:");
         ui.listStudents(students);
 
-        // 6. Test listCourses output (lightweight, no assertions)
+        // test listCourses output
         System.out.println("\nExpected list of courses:");
         ui.listCourses(courses);
 
@@ -223,14 +223,14 @@ private void testOutput() {
     private void testStudent() {
         System.out.println("\n--- Student Class Tests ---\n");
 
-        // 1. Test constructor and getters
+        // test constructor and getters
         Student s = new Student("B001", "JohnSmith", "jsmith@uca.edu");
         assert s.getId().equals("B001") : "Student ID mismatch";
         assert s.getName().equals("JohnSmith") : "Student name mismatch";
         assert s.getEmail().equals("jsmith@uca.edu") : "Student email mismatch";
         System.out.println("Passed constructor and getter checks");
 
-        // 2. Test toString format
+        // test toString format
         String expected = "B001 JohnSmith <jsmith@uca.edu>";
         assert s.toString().equals(expected) : "toString output incorrect";
         System.out.println("Passed toString format check");
@@ -241,14 +241,14 @@ private void testOutput() {
     private void testCourse() {
         System.out.println("\n--- Course Class Tests ---\n");
 
-        // 1. Test constructor and getters
+        //test constructor and getters
         Course c = new Course("CSCI4000", "GermanI", 2);
         assert c.getCode().equals("CSCI4000") : "Course code mismatch";
         assert c.getTitle().equals("GermanI") : "Course title mismatch";
         assert c.getCapacity() == 2 : "Course capacity mismatch";
         System.out.println("Passed constructor and getter checks");
 
-        // 2. Test roster and waitlist lists
+        // test roster and waitlist lists
         c.getRoster().add("B001");
         c.getWaitlist().add("B002");
         assert c.getRoster().contains("B001") : "Roster add failed";
