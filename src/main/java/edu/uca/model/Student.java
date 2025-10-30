@@ -9,6 +9,7 @@ public class Student {
     public Student(String id, String name, String email) {
         this.id=id; this.name=name; this.email=email;
     }
+    @Override
     public String toString() { return id + " " + name + " <" + email + ">"; }
 
     /* ----------------
